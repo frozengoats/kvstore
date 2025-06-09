@@ -1,4 +1,5 @@
 GO_IMAGE := golang:1.24-alpine
+GO_RUN := docker run --rm -e HOME=$$HOME -v $$HOME:$$HOME -u $(shell id -u):$(shell id -g) -v $(shell pwd):/build -w /build $(GO_IMAGE) go
 
 .PHONY: test
 test:
