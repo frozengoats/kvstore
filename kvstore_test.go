@@ -118,3 +118,34 @@ func TestNoNsSet(t *testing.T) {
 	err := s.Set("hello")
 	assert.Error(t, err)
 }
+
+func TestIndexIdentifier(t *testing.T) {
+	key, index, ok := parseArrayKey("test[100]")
+	assert.Equal(t, "test", key)
+	assert.Equal(t, 100, index)
+	assert.True(t, ok)
+}
+
+func TestAccessNotation(t *testing.T) {
+	s := NewStore()
+	err := s.Set([]any{map[string]any{
+		"x": 1,
+		"y": 2,
+		"z": 3,
+	},
+		map[string]any{
+			"x": 10,
+			"y": 20,
+			"z": 30,
+		}}, "first", "second")
+
+	assert.NoError(t, err)
+	value := s.GetInt(s.ParseNamespaceString("first.second[1].x")...)
+	assert.Equal(t, 10, value)
+
+	err = s.Set(22, s.ParseNamespaceString("first.second[0].y")...)
+	assert.NoError(t, err)
+	value = s.GetInt(s.ParseNamespaceString("first.second[0].y")...)
+	assert.Equal(t, 22, value)
+
+}
