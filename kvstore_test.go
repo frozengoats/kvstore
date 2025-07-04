@@ -147,5 +147,18 @@ func TestAccessNotation(t *testing.T) {
 	assert.NoError(t, err)
 	value = s.GetInt(s.ParseNamespaceString("first.second[0].y")...)
 	assert.Equal(t, 22, value)
+}
 
+func TestGetArrayNegativeIndex(t *testing.T) {
+	s := NewStore()
+	err := s.Set(map[string]any{
+		"x": []any{1, 2, 3, 4},
+		"y": 2,
+		"z": 3,
+	}, "a")
+	assert.NoError(t, err)
+	assert.Equal(t, 4, s.GetInt(s.ParseNamespaceString("a.x[-1]")...))
+	assert.Equal(t, 3, s.GetInt(s.ParseNamespaceString("a.x[-2]")...))
+	assert.Equal(t, 1, s.GetInt(s.ParseNamespaceString("a.x[-4]")...))
+	assert.Equal(t, 0, s.GetInt(s.ParseNamespaceString("a.x[-5]")...))
 }
