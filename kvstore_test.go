@@ -139,12 +139,12 @@ func TestAccessNotation(t *testing.T) {
 		}}, "first", "second")
 
 	assert.NoError(t, err)
-	value := s.GetInt(s.ParseNamespaceString("first.second[1].x")...)
+	value := s.GetInt(ParseNamespaceString("first.second[1].x")...)
 	assert.Equal(t, 10, value)
 
-	err = s.Set(22, s.ParseNamespaceString("first.second[0].y")...)
+	err = s.Set(22, ParseNamespaceString("first.second[0].y")...)
 	assert.NoError(t, err)
-	value = s.GetInt(s.ParseNamespaceString("first.second[0].y")...)
+	value = s.GetInt(ParseNamespaceString("first.second[0].y")...)
 	assert.Equal(t, 22, value)
 }
 
@@ -156,8 +156,8 @@ func TestGetArrayNegativeIndex(t *testing.T) {
 		"z": 3,
 	}, "a")
 	assert.NoError(t, err)
-	assert.Equal(t, 4, s.GetInt(s.ParseNamespaceString("a.x[-1]")...))
-	assert.Equal(t, 3, s.GetInt(s.ParseNamespaceString("a.x[-2]")...))
-	assert.Equal(t, 1, s.GetInt(s.ParseNamespaceString("a.x[-4]")...))
-	assert.Equal(t, 0, s.GetInt(s.ParseNamespaceString("a.x[-5]")...))
+	assert.Equal(t, 4, s.GetInt(ParseNamespaceString("a.x[-1]")...))
+	assert.Equal(t, 3, s.GetInt(ParseNamespaceString("a.x[-2]")...))
+	assert.Equal(t, 1, s.GetInt(ParseNamespaceString("a.x[-4]")...))
+	assert.Equal(t, 0, s.GetInt(ParseNamespaceString("a.x[-5]")...))
 }

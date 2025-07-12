@@ -601,7 +601,7 @@ func (s *Store) DeepCopy() *Store {
 }
 
 // ParseKey returns a namespace array from a namespace string
-func (s *Store) ParseNamespaceString(key string) []any {
+func ParseNamespaceString(key string) []any {
 	var keys []any
 	keyParts := strings.Split(key, ".")
 	for _, kp := range keyParts {
