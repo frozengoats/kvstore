@@ -102,8 +102,7 @@ func TestOverlay(t *testing.T) {
 	err = ovl.Set([]any{"hello", "world"}, "first", "second", "third", "fourth")
 	assert.NoError(t, err)
 
-	final, err := base.Overylay(ovl)
-	assert.NoError(t, err)
+	final := base.Overlay(ovl)
 	thirdMapping := final.GetMapping("first", "second", "third")
 	assert.Equal(t, len(thirdMapping), 1)
 	assert.Equal(t, "howdy", final.GetString("first", "second", "third-b", "a"))

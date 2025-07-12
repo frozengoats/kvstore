@@ -584,11 +584,20 @@ func (s *Store) GetStoreArray(namespace ...any) []*Store {
 // Overlay returns a new store object which overlays the provided store onto this store
 // This method isn't designed for high efficiency, but rather high code maintainability - for
 // this reason the entire base is copied before determining which keys are actually needed in the final overlay
-func (s *Store) Overylay(ovl *Store) (*Store, error) {
+func (s *Store) Overlay(ovl *Store) *Store {
 	newMap := deepCopyMap(s.data)
 	overlayMap := deepCopyMap(ovl.data)
 	copyOver(newMap, overlayMap)
-	return FromMapping(newMap)
+	// since this is all vetted data, an error is impossible
+	newStore, _ := FromMapping(newMap)
+	return newStore
+}
+
+func (s *Store) DeepCopy() *Store {
+	newMap := deepCopyMap(s.data)
+	// since this is all vetted data, an error is impossible
+	newStore, _ := FromMapping(newMap)
+	return newStore
 }
 
 // ParseKey returns a namespace array from a namespace string
