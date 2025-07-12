@@ -595,7 +595,7 @@ func (s *Store) Overlay(ovl *Store) *Store {
 
 func (s *Store) DeepCopy() *Store {
 	newMap := deepCopyMap(s.data)
-	// since this is all vetted data, an error is impossibl
+	// since this is all vetted data, an error is impossible
 	newStore, _ := FromMapping(newMap)
 	return newStore
 }
