@@ -161,3 +161,25 @@ func TestGetArrayNegativeIndex(t *testing.T) {
 	assert.Equal(t, 1, s.GetInt(ParseNamespaceString("a.x[-4]")...))
 	assert.Equal(t, 0, s.GetInt(ParseNamespaceString("a.x[-5]")...))
 }
+
+func TestExportWholeObject(t *testing.T) {
+	s := NewStore()
+	err := s.Set([]byte{1, 2, 3, 4, 5}, "value1")
+	assert.NoError(t, err)
+	topLevel := s.GetMapping()
+	data := topLevel["value1"]
+	_, ok := data.([]byte)
+	assert.True(t, ok)
+}
+
+func TestGetAndStoreByteArray(t *testing.T) {
+	s := NewStore()
+	err := s.Set([]byte{1, 2, 3, 4, 5}, "value1")
+	assert.NoError(t, err)
+	topLevel := s.GetMapping()
+	data := topLevel["value1"]
+	b, ok := data.([]byte)
+	assert.True(t, ok)
+	assert.Len(t, b, 5)
+	assert.Equal(t, byte(3), b[2])
+}
