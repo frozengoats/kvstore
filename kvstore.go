@@ -54,6 +54,8 @@ func verifySlice(data []any) error {
 		case int:
 		case int64:
 			data[i] = int(t)
+		case uint64:
+			data[i] = int(t)
 		case float64:
 		case string:
 		case nil:
@@ -80,6 +82,8 @@ func verifyMapping(data map[string]any) error {
 		switch t := v.(type) {
 		case bool:
 		case int64:
+			data[k] = int(t)
+		case uint64:
 			data[k] = int(t)
 		case int:
 		case float64:

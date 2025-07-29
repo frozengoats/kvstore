@@ -3,6 +3,7 @@ package kvstore
 import (
 	"testing"
 
+	"github.com/goccy/go-yaml"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -195,4 +196,20 @@ func TestGetAndStoreByteArray(t *testing.T) {
 	assert.True(t, ok)
 	assert.Len(t, b, 5)
 	assert.Equal(t, byte(3), b[2])
+}
+
+func TestUnexpectedValue(t *testing.T) {
+	v := `things:
+  numbers: [1, 2, 3, 4, 5]
+  words:
+  - alpha
+  - beta
+  - gamma
+  num: 6`
+
+	m := map[string]any{}
+	err := yaml.Unmarshal([]byte(v), &m)
+	assert.NoError(t, err)
+	_, err = FromMapping(m)
+	assert.NoError(t, err)
 }
