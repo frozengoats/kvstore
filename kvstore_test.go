@@ -18,6 +18,19 @@ func TestCreateFromMappingGood(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestCreateFromMappingWithStrangeInts(t *testing.T) {
+	m := map[string]any{
+		"hello": "world",
+		"super": map[string]any{
+			"awesome": int64(10),
+			"arra":    []any{int64(1), int64(2), 3, 4, 5},
+			"happy":   nil,
+		},
+	}
+	_, err := FromMapping(m)
+	assert.NoError(t, err)
+}
+
 func TestCreateFromMappingBadMapping(t *testing.T) {
 	m := map[string]any{
 		"hello": "world",
